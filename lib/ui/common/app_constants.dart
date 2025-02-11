@@ -7,3 +7,5 @@ import 'package:flutter/material.dart';
 
 const double kdDesktopScreenWidth = 1440;
 const double kdMobileScreenwidth = 375;
+
+const double kcStyle = 16.0;

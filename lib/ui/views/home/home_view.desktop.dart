@@ -1,6 +1,8 @@
 import 'package:product_list/ui/common/app_colors.dart';
+import 'package:product_list/ui/common/app_constants.dart';
 import 'package:product_list/ui/common/ui_helpers.dart';
 import 'package:flutter/material.dart';
+import 'package:responsive_builder/responsive_builder.dart';
 import 'package:stacked/stacked.dart';
 
 import 'home_viewmodel.dart';
@@ -12,59 +14,88 @@ class HomeViewDesktop extends ViewModelWidget<HomeViewModel> {
   Widget build(BuildContext context, HomeViewModel viewModel) {
     return Scaffold(
       body: Center(
-        child: SizedBox(
+        child: Container(
+          padding: const EdgeInsets.all(35),
+          color: kcrose50,
           width: screenWidth(context),
           height: screenHeight(context),
-          child: Column(
-            mainAxisSize: MainAxisSize.max,
+          child: Row(
             mainAxisAlignment: MainAxisAlignment.spaceBetween,
             children: [
-              verticalSpaceLarge,
-              Column(
-                children: [
-                  const Text(
-                    'Hello, DESKTOP UI!',
-                    style: TextStyle(
-                      fontSize: 35,
-                      fontWeight: FontWeight.w900,
+              Expanded(
+                flex: 3,
+                child: CustomScrollView(
+                  slivers: [
+                    const SliverToBoxAdapter(
+                      child: Text(
+                        'Desserts',
+                        style: TextStyle(
+                            fontSize: kcStyle * 2, fontWeight: FontWeight.w900),
+                      ),
                     ),
-                  ),
-                  verticalSpaceMedium,
-                  MaterialButton(
-                    color: Colors.black,
-                    onPressed: viewModel.incrementCounter,
-                    child: Text(
-                      viewModel.counterLabel,
-                      style: const TextStyle(color: Colors.white),
+                    const SliverToBoxAdapter(
+                      child: verticalSpaceMedium,
                     ),
-                  ),
-                ],
+                    SliverGrid(
+                      gridDelegate: SliverGridDelegateWithFixedCrossAxisCount(
+                        crossAxisCount: screenWidth(context) > 1350
+                            ? 3
+                            : screenWidth(context) > 1120
+                                ? 2
+                                : 1,
+                        //childAspectRatio: 2.5,
+                        crossAxisSpacing: 5,
+                        mainAxisSpacing: 5,
+                      ),
+                      delegate: SliverChildBuilderDelegate((context, index) {
+                        Map<String, dynamic> data =
+                            viewModel.data.toList()[index];
+                        return Container(
+                          width: 400,
+                          child: Column(
+                            mainAxisAlignment: MainAxisAlignment.start,
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            children: [
+                              Image.asset(
+                                data['image']['desktop'],
+                                fit: BoxFit.fill,
+                                width: 250,
+                              ),
+                              Text(
+                                data['category'],
+                                style: TextStyle(
+                                  fontSize: kcStyle,
+                                ),
+                              ),
+                              Text(
+                                data['name'],
+                                style: TextStyle(
+                                    fontSize: kcStyle,
+                                    color: kcrose900,
+                                    fontWeight: FontWeight.w900),
+                              ),
+                              Text(
+                                "\$${data['price'].toStringAsFixed(2)}",
+                                style: TextStyle(
+                                  fontSize: kcStyle,
+                                  color: kcred,
+                                  fontWeight: FontWeight.w900,
+                                ),
+                              ),
+                            ],
+                          ),
+                        );
+                      }, childCount: viewModel.data.length),
+                    ),
+                  ],
+                ),
               ),
-              Row(
-                mainAxisAlignment: MainAxisAlignment.spaceBetween,
-                children: [
-                  MaterialButton(
-                    color: kcDarkGreyColor,
-                    onPressed: viewModel.showDialog,
-                    child: const Text(
-                      'Show Dialog',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                  MaterialButton(
-                    color: kcDarkGreyColor,
-                    onPressed: viewModel.showBottomSheet,
-                    child: const Text(
-                      'Show Bottom Sheet',
-                      style: TextStyle(
-                        color: Colors.white,
-                      ),
-                    ),
-                  ),
-                ],
-              )
+              const Expanded(
+                flex: 1,
+                child: Column(
+                  children: [],
+                ),
+              ),
             ],
           ),
         ),
