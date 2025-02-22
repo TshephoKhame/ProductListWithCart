@@ -19,3 +19,5 @@ const Color kcrose300 = Color(0xFFCCB8B5);
 const Color kcrose400 = Color(0xFF998F99);
 const Color kcrose500 = Color(0xFF705F70);
 const Color kcrose900 = Color(0xFF1A0F0F);
+
+const Color kctransparent = Color.fromARGB(0, 255, 255, 255);

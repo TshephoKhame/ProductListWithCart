@@ -10,10 +10,9 @@ class HomeViewModel extends BaseViewModel {
   final _bottomSheetService = locator<BottomSheetService>();
 
   String get counterLabel => 'Counter is: $_counter';
-
   int _counter = 0;
 
-  final List<Map<String, dynamic>> data = [
+  List<Map<String, dynamic>> data = [
     {
       "image": {
         "thumbnail": "./assets/image-waffle-thumbnail.jpg",
@@ -23,7 +22,8 @@ class HomeViewModel extends BaseViewModel {
       },
       "name": "Waffle with Berries",
       "category": "Waffle",
-      "price": 6.50
+      "price": 6.50,
+      "selected": 0
     },
     {
       "image": {
@@ -34,7 +34,8 @@ class HomeViewModel extends BaseViewModel {
       },
       "name": "Vanilla Bean Crème Brûlée",
       "category": "Crème Brûlée",
-      "price": 7.00
+      "price": 7.00,
+      "selected": 0
     },
     {
       "image": {
@@ -45,7 +46,8 @@ class HomeViewModel extends BaseViewModel {
       },
       "name": "Macaron Mix of Five",
       "category": "Macaron",
-      "price": 8.00
+      "price": 8.00,
+      "selected": 0
     },
     {
       "image": {
@@ -56,7 +58,8 @@ class HomeViewModel extends BaseViewModel {
       },
       "name": "Classic Tiramisu",
       "category": "Tiramisu",
-      "price": 5.50
+      "price": 5.50,
+      "selected": 0
     },
     {
       "image": {
@@ -67,7 +70,8 @@ class HomeViewModel extends BaseViewModel {
       },
       "name": "Pistachio Baklava",
       "category": "Baklava",
-      "price": 4.00
+      "price": 4.00,
+      "selected": 0
     },
     {
       "image": {
@@ -78,7 +82,8 @@ class HomeViewModel extends BaseViewModel {
       },
       "name": "Lemon Meringue Pie",
       "category": "Pie",
-      "price": 5.00
+      "price": 5.00,
+      "selected": 0
     },
     {
       "image": {
@@ -89,7 +94,8 @@ class HomeViewModel extends BaseViewModel {
       },
       "name": "Red Velvet Cake",
       "category": "Cake",
-      "price": 4.50
+      "price": 4.50,
+      "selected": 0
     },
     {
       "image": {
@@ -100,7 +106,8 @@ class HomeViewModel extends BaseViewModel {
       },
       "name": "Salted Caramel Brownie",
       "category": "Brownie",
-      "price": 4.50
+      "price": 4.50,
+      "selected": 0
     },
     {
       "image": {
@@ -111,13 +118,41 @@ class HomeViewModel extends BaseViewModel {
       },
       "name": "Vanilla Panna Cotta",
       "category": "Panna Cotta",
-      "price": 6.50
+      "price": 6.50,
+      "selected": 0
     }
   ];
+  double selectedItemsCount = 0;
+  double totalAmount = 0;
+  List<String> selectedItems = [];
 
-  void incrementCounter() {
-    _counter++;
+  void incrementItem(name) {
+    data.toList().forEach((item) {
+      if (item['name'] == name) {
+        item['selected']++;
+        selectedItemsCount++;
+        selectedItems.contains(name) ? null : selectedItems.add(name);
+        totalAmount += item['price'];
+      }
+    });
     rebuildUi();
+  }
+
+  void decrementItem(name) {
+    data.toList().forEach((item) {
+      if (item['name'] == name) {
+        item['selected']--;
+        selectedItemsCount--;
+        totalAmount -= item['price'];
+      }
+    });
+    rebuildUi();
+  }
+
+  void adjustCart(itemName, itemTotal) {
+    selectedItems.remove(itemName);
+    totalAmount -= itemTotal;
+    data.firstWhere((info) => info['name'] == itemName)['selected'] = 0;
   }
 
   void showDialog() {

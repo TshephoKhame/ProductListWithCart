@@ -32,7 +32,7 @@ class HomeViewMobile extends ViewModelWidget<HomeViewModel> {
                     verticalSpaceMedium,
                     MaterialButton(
                       color: Colors.black,
-                      onPressed: viewModel.incrementCounter,
+                      onPressed: () {},
                       child: Text(
                         viewModel.counterLabel,
                         style: const TextStyle(color: Colors.white),

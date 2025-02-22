@@ -23,6 +23,25 @@ class MainApp extends StatelessWidget {
   Widget build(BuildContext context) {
     return ResponsiveApp(
       builder: (_) => MaterialApp.router(
+        debugShowCheckedModeBanner: false,
+        theme: ThemeData(
+          textTheme: const TextTheme(
+            displaySmall: TextStyle(
+                fontFamily: 'RedHatText', fontWeight: FontWeight.w400),
+            headlineSmall: TextStyle(
+                fontFamily: 'RedHatText', fontWeight: FontWeight.w700),
+            headlineLarge: TextStyle(
+                fontFamily: 'RedHatText', fontWeight: FontWeight.w700),
+            bodySmall: TextStyle(
+                fontFamily: 'RedHatText', fontWeight: FontWeight.w500),
+            bodyMedium: TextStyle(
+                fontFamily: 'RedHatText', fontWeight: FontWeight.w400),
+            labelSmall: TextStyle(
+                fontFamily: 'RedHatText', fontWeight: FontWeight.w400),
+            labelMedium: TextStyle(
+                fontFamily: 'RedHatText', fontWeight: FontWeight.w400),
+          ),
+        ),
         routerDelegate: stackedRouter.delegate(),
         routeInformationParser: stackedRouter.defaultRouteParser(),
       ),
